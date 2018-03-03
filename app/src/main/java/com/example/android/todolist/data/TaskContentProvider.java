@@ -18,24 +18,44 @@ package com.example.android.todolist.data;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-// TODO (1) Verify that TaskContentProvider extends from ContentProvider and implements required methods
 public class TaskContentProvider extends ContentProvider {
 
+    public static final int TASKS = 100;
 
-    /* onCreate() is where you should initialize anything you’ll need to setup
+    public static final int TASK_WITH_ID = 101;
+
+    public static final UriMatcher sUriMatcher = buildUriMatcher();
+
+    private TaskDbHelper taskDbHelper;
+
+    public static UriMatcher buildUriMatcher() {
+
+        UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+        uriMatcher.addURI(TaskContract.CONTENT_AUTHORITY, TaskContract.PATH_TASKS, TASKS);
+
+        uriMatcher.addURI(TaskContract.CONTENT_AUTHORITY, TaskContract.PATH_TASKS + "/#", TASK_WITH_ID);
+
+        return uriMatcher;
+
+    }
+
+    /*
+    onCreate() is where you should initialize anything you’ll need to setup
     your underlying data source.
     In this case, you’re working with a SQLite database, so you’ll need to
     initialize a DbHelper to gain access to it.
-     */
+    */
     @Override
     public boolean onCreate() {
-        // TODO (2) Complete onCreate() and initialize a TaskDbhelper on startup
-        // [Hint] Declare the DbHelper as a global variable
-
+        Context context = getContext();
+        taskDbHelper = new TaskDbHelper(context);
         return false;
     }
 
