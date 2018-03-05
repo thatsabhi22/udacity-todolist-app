@@ -17,10 +17,12 @@
 package com.example.android.todolist.data;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
@@ -32,7 +34,7 @@ public class TaskContentProvider extends ContentProvider {
 
     public static final UriMatcher sUriMatcher = buildUriMatcher();
 
-    private TaskDbHelper taskDbHelper;
+    private TaskDbHelper mTaskDbHelper;
 
     public static UriMatcher buildUriMatcher() {
 
@@ -55,7 +57,7 @@ public class TaskContentProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         Context context = getContext();
-        taskDbHelper = new TaskDbHelper(context);
+        mTaskDbHelper = new TaskDbHelper(context);
         return false;
     }
 
@@ -63,7 +65,33 @@ public class TaskContentProvider extends ContentProvider {
     @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
 
-        throw new UnsupportedOperationException("Not yet implemented");
+        SQLiteDatabase db = mTaskDbHelper.getWritableDatabase();
+
+        int match = sUriMatcher.match(uri);
+
+        Uri returnUri;
+
+        switch (match) {
+            case TASKS:
+
+                long id = db.insert(TaskContract.TaskEntry.TABLE_NAME, null, values);
+
+                if (id > 0) {
+                    returnUri = ContentUris.withAppendedId(TaskContract.TaskEntry.CONTENT_URI, id);
+                } else {
+                    throw new android.database.SQLException("Failed to insert row" + uri);
+                }
+
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown Uri" + uri);
+
+        }
+
+        getContext().getContentResolver().notifyChange(uri, null);
+
+        return returnUri;
+
     }
 
 

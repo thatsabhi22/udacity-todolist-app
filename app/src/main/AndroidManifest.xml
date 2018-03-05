@@ -4,6 +4,7 @@
     package="com.example.android.todolist">
 
     <application
+        android:name=".MyCustomApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
