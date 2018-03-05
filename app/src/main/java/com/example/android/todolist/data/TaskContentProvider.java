@@ -25,6 +25,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
+
+import static com.example.android.todolist.data.TaskContract.TaskEntry.TABLE_NAME;
 
 public class TaskContentProvider extends ContentProvider {
 
@@ -74,7 +77,7 @@ public class TaskContentProvider extends ContentProvider {
         switch (match) {
             case TASKS:
 
-                long id = db.insert(TaskContract.TaskEntry.TABLE_NAME, null, values);
+                long id = db.insert(TABLE_NAME, null, values);
 
                 if (id > 0) {
                     returnUri = ContentUris.withAppendedId(TaskContract.TaskEntry.CONTENT_URI, id);
@@ -107,7 +110,7 @@ public class TaskContentProvider extends ContentProvider {
 
         switch (match) {
             case TASKS:
-                retCursor = db.query(TaskContract.TaskEntry.TABLE_NAME,
+                retCursor = db.query(TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -122,7 +125,7 @@ public class TaskContentProvider extends ContentProvider {
                 String mSelection = "_id=?";
                 String[] mSelectionArgs = {id};
 
-                retCursor = db.query(TaskContract.TaskEntry.TABLE_NAME,
+                retCursor = db.query(TABLE_NAME,
                         projection,
                         mSelection,
                         mSelectionArgs,
@@ -134,7 +137,7 @@ public class TaskContentProvider extends ContentProvider {
                 throw new UnsupportedOperationException("Not yet implemented");
         }
 
-        retCursor.setNotificationUri(getContext().getContentResolver(),uri);
+        retCursor.setNotificationUri(getContext().getContentResolver(), uri);
 
         return retCursor;
     }
@@ -156,7 +159,7 @@ public class TaskContentProvider extends ContentProvider {
                 String mWhereClause = "_id=?";
                 String[] mWhereArgs = {id};
 
-                deleted = db.delete(TaskContract.TaskEntry.TABLE_NAME,
+                deleted = db.delete(TABLE_NAME,
                         mWhereClause,
                         mWhereArgs);
                 break;
@@ -166,6 +169,7 @@ public class TaskContentProvider extends ContentProvider {
 
         if (deleted != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
+            Toast.makeText(getContext(), "Task has been deleted", Toast.LENGTH_SHORT).show();
         }
 
         return deleted;
@@ -176,7 +180,31 @@ public class TaskContentProvider extends ContentProvider {
     public int update(@NonNull Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
 
-        throw new UnsupportedOperationException("Not yet implemented");
+        //Keep track of if an update occurs
+        int tasksUpdated;
+
+        // match code
+        int match = sUriMatcher.match(uri);
+
+        switch (match) {
+            case TASK_WITH_ID:
+                //update a single task by getting the id
+                String id = uri.getPathSegments().get(1);
+                //using selections
+                tasksUpdated = mTaskDbHelper.getWritableDatabase().update(
+                        TABLE_NAME, values, "_id=?", new String[]{id});
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+
+        if (tasksUpdated != 0) {
+            //set notifications if a task was updated
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        // return number of tasks updated
+        return tasksUpdated;
     }
 
 

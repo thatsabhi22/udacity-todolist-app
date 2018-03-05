@@ -13,7 +13,9 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <!-- The manifest entry for the MainActivity -->
-        <activity android:name="com.example.android.todolist.MainActivity">
+        <activity
+            android:name="com.example.android.todolist.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +26,8 @@
         <!-- AddTaskActivity -->
         <activity
             android:name="com.example.android.todolist.AddTaskActivity"
-            android:label="@string/add_task_activity_name" />
+            android:label="@string/add_task_activity_name"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <provider
             android:name="com.example.android.todolist.data.TaskContentProvider"
