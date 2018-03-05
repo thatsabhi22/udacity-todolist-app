@@ -143,7 +143,32 @@ public class TaskContentProvider extends ContentProvider {
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
 
-        throw new UnsupportedOperationException("Not yet implemented");
+        SQLiteDatabase db = mTaskDbHelper.getWritableDatabase();
+
+        int match = sUriMatcher.match(uri);
+
+        int deleted;
+
+        switch (match) {
+            case TASK_WITH_ID:
+
+                String id = uri.getPathSegments().get(1);
+                String mWhereClause = "_id=?";
+                String[] mWhereArgs = {id};
+
+                deleted = db.delete(TaskContract.TaskEntry.TABLE_NAME,
+                        mWhereClause,
+                        mWhereArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("Not yet implemented");
+        }
+
+        if (deleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return deleted;
     }
 
 
