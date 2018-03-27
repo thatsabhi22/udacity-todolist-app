@@ -14,13 +14,13 @@
 * limitations under the License.
 */
 
-package com.example.android.todolist.data;
+package com.theleafapps.pro.todolist.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.android.todolist.data.TaskContract.TaskEntry;
+import com.theleafapps.pro.todolist.data.TaskContract.TaskEntry;
 
 
 public class TaskDbHelper extends SQLiteOpenHelper {

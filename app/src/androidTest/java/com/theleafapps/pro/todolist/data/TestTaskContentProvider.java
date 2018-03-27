@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package com.example.android.todolist.data;
+package com.theleafapps.pro.todolist.data;
 
 import android.content.ComponentName;
 import android.content.ContentResolver;

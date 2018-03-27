@@ -1,4 +1,4 @@
-package com.example.android.todolist;
+package com.theleafapps.pro.todolist;
 
 import android.app.Application;
 

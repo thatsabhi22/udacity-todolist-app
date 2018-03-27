@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="com.example.android.todolist.MainActivity">
+    tools:context="com.theleafapps.pro.todolist.MainActivity">
 
     <!--
         This horizontal linear layout displays the description and priority of a task

@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package com.example.android.todolist;
+package com.theleafapps.pro.todolist;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -26,7 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.android.todolist.data.TaskContract;
+import com.theleafapps.pro.todolist.data.TaskContract;
 
 
 /**

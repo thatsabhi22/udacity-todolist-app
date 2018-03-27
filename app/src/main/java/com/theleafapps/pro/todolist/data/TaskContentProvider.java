@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package com.example.android.todolist.data;
+package com.theleafapps.pro.todolist.data;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -27,7 +27,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
-import static com.example.android.todolist.data.TaskContract.TaskEntry.TABLE_NAME;
+import static com.theleafapps.pro.todolist.data.TaskContract.TaskEntry.TABLE_NAME;
 
 public class TaskContentProvider extends ContentProvider {
 

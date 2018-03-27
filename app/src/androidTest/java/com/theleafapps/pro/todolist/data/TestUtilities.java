@@ -14,14 +14,14 @@
 * limitations under the License.
 */
 
-package com.example.android.todolist.data;
+package com.theleafapps.pro.todolist.data;
 
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.HandlerThread;
 
-import com.example.android.todolist.utils.PollingCheck;
+import com.theleafapps.pro.todolist.utils.PollingCheck;
 
 
 class TestUtilities {

@@ -14,14 +14,14 @@
 * limitations under the License.
 */
 
-package com.example.android.todolist.data;
+package com.theleafapps.pro.todolist.data;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
 
 public class TaskContract {
 
-    public static final String CONTENT_AUTHORITY = "com.example.android.todolist";
+    public static final String CONTENT_AUTHORITY = "com.theleafapps.pro.todolist";
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
