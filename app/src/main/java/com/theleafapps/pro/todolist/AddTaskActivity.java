@@ -77,7 +77,7 @@ public class AddTaskActivity extends AppCompatActivity {
         Uri uri = contentResolver.insert(TaskContract.TaskEntry.CONTENT_URI, contentValues);
 
         if (uri != null) {
-            Toast.makeText(this, uri.toString(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, uri.toString(), Toast.LENGTH_LONG).show();
         }
 
         finish();
