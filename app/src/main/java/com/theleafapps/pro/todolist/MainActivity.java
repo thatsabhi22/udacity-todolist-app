@@ -53,12 +53,6 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-        getSupportActionBar().setTitle("  " + "To-do List");
-
         // Set the RecyclerView to its corresponding view
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewTasks);
 
@@ -86,14 +80,17 @@ public class MainActivity extends AppCompatActivity implements
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 // Here is where you'll implement swipe to delete
 
-                int id = (int)viewHolder.itemView.getTag();
+                // Retrieve the id of the task to delete
+                int id = (int) viewHolder.itemView.getTag();
 
+                // Build appropriate uri with String row id appended
                 String stringId = Integer.toString(id);
                 Uri uri = TaskContract.TaskEntry.CONTENT_URI;
                 uri = uri.buildUpon().appendPath(stringId).build();
 
-                getContentResolver().delete(uri,null,null);
-                getSupportLoaderManager().restartLoader(TASK_LOADER_ID,null,MainActivity.this);
+                getContentResolver().delete(uri, null, null);
+
+                getSupportLoaderManager().restartLoader(TASK_LOADER_ID, null, MainActivity.this);
 
             }
         }).attachToRecyclerView(mRecyclerView);
@@ -166,15 +163,18 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public Cursor loadInBackground() {
                 // Will implement to load data
-                try{
+
+                // Query and load all task data in the background; sort by priority
+
+                try {
                     return getContentResolver().query(TaskContract.TaskEntry.CONTENT_URI,
                             null,
                             null,
                             null,
                             TaskContract.TaskEntry.COLUMN_PRIORITY);
 
-                }catch(Exception e){
-                    Log.e(TAG, "loadInBackground: Failed to asychronously load the data.");
+                } catch (Exception e) {
+                    Log.e(TAG, "Failed to asynchronously load data.");
                     e.printStackTrace();
                     return null;
                 }

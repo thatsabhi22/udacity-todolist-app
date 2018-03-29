@@ -16,13 +16,10 @@
 
 package com.theleafapps.pro.todolist;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -36,17 +33,10 @@ public class AddTaskActivity extends AppCompatActivity {
     // Declare a member variable to keep track of a task's selected mPriority
     private int mPriority;
 
-    private EditText taskText;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
-        getSupportActionBar().setTitle("  " + "Add a New Task");
 
         // Initialize to highest mPriority by default (mPriority = 1)
         ((RadioButton) findViewById(R.id.radButton1)).setChecked(true);
@@ -59,28 +49,30 @@ public class AddTaskActivity extends AppCompatActivity {
      * It retrieves user input and inserts that new task data into the underlying database.
      */
     public void onClickAddTask(View view) {
-
-        taskText = (EditText) findViewById(R.id.editTextTaskDescription);
-
-        String taskDescription = taskText.getText().toString();
-
-        if (TextUtils.isEmpty(taskDescription)) {
-            taskText.setError("Please enter something !!");
+        // Check if EditText is empty, if not retrieve input and store it in a ContentValues object
+        // If the EditText input is empty -> don't create an entry
+        String input = ((EditText) findViewById(R.id.editTextTaskDescription)).getText().toString();
+        if (input.length() == 0) {
             return;
         }
 
+        // Insert new task data via a ContentResolver
+        // Create new empty ContentValues object
         ContentValues contentValues = new ContentValues();
-        contentValues.put(TaskContract.TaskEntry.COLUMN_DESCRIPTION, taskDescription);
+        // Put the task description and selected mPriority into the ContentValues
+        contentValues.put(TaskContract.TaskEntry.COLUMN_DESCRIPTION, input);
         contentValues.put(TaskContract.TaskEntry.COLUMN_PRIORITY, mPriority);
+        // Insert the content values via a ContentResolver
+        Uri uri = getContentResolver().insert(TaskContract.TaskEntry.CONTENT_URI, contentValues);
 
-        ContentResolver contentResolver = getContentResolver();
-        Uri uri = contentResolver.insert(TaskContract.TaskEntry.CONTENT_URI, contentValues);
-
-        if (uri != null) {
-            //Toast.makeText(this, uri.toString(), Toast.LENGTH_LONG).show();
+        // Display the URI that's returned with a Toast
+        if(uri != null) {
+            //Toast.makeText(getBaseContext(), uri.toString(), Toast.LENGTH_LONG).show();
         }
 
+        // Finish activity (this returns back to MainActivity)
         finish();
+
     }
 
 

@@ -45,10 +45,10 @@ public class TaskDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         // Create tasks table (careful to follow SQL formatting rules)
-        final String CREATE_TABLE = "CREATE TABLE "  + TaskEntry.TABLE_NAME + " (" +
-                        TaskEntry._ID                + " INTEGER PRIMARY KEY, " +
-                        TaskEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
-                        TaskEntry.COLUMN_PRIORITY    + " INTEGER NOT NULL);";
+        final String CREATE_TABLE = "CREATE TABLE " + TaskEntry.TABLE_NAME + " (" +
+                TaskEntry._ID + " INTEGER PRIMARY KEY, " +
+                TaskEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
+                TaskEntry.COLUMN_PRIORITY + " INTEGER NOT NULL);";
 
         db.execSQL(CREATE_TABLE);
     }
